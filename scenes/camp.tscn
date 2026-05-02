@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://7mfsxq5hvhnv"]
+
+[ext_resource type="Script" uid="uid://ddp5wdubs8e6" path="res://scripts/camp.gd" id="1_nfbfs"]
+[ext_resource type="PackedScene" uid="uid://ccbwa0ec375r4" path="res://scenes/tiles.tscn" id="1_wk8fr"]
+
+[node name="Camp" type="Node3D" unique_id=306068408]
+script = ExtResource("1_nfbfs")
+tile_scene = ExtResource("1_wk8fr")
+
+[node name="Tiles" type="Node3D" parent="." unique_id=356959338]
