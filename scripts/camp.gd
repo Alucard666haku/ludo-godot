@@ -9,12 +9,15 @@ extends Node3D
 @onready var path = $Path # Node enfant avec le script path.gd
 
 var tiles = []
+var pawns = []
+var player_id: int = 0
 
 func _ready():
 	generate_tiles()
 	apply_material()
 	apply_safe_logic()  # ← après le matériau de base
 	path.setup(self, tiles)  # ← initialise le chemin avec les tuiles générées
+	spawn_pawns()  # ← génère les 4 pions du joueur
 
 func generate_tiles():
 	var container = $Tiles
@@ -62,3 +65,45 @@ func apply_safe_logic():
 			tiles[i].set_safe(true)
 		elif x == 2 and z == 1:
 			tiles[i].set_safe(true)
+
+func spawn_pawns():
+	var container = $Tiles  # On ajoute les pions dans le même conteneur que les tuiles
+
+	# Positions de départ des pions (à la maison)
+	# Utilise les tuiles du fond du camp : z=3 et z=4, x=0 et x=1
+	var home_coords = [
+		Vector2i(3, 0),  # z=3, x=0
+		Vector2i(3, 1),  # z=3, x=1
+		Vector2i(4, 0),  # z=4, x=0
+		Vector2i(4, 1),  # z=4, x=1
+	]
+
+	var cols = 3
+	for i in range(4):
+		var coord = home_coords[i]
+		var z = coord.x
+		var x = coord.y
+		var index = z * cols + x
+
+		if index >= 0 and index < tiles.size():
+			var tile = tiles[index]
+
+			# Crée le pion
+			var pawn = Node3D.new()
+			pawn.script = load("res://scripts/pawn.gd")
+			pawn.name = "Pawn" + str(i)
+
+			# Ajoute un MeshInstance3D pour la visualisation
+			var mesh = MeshInstance3D.new()
+			mesh.mesh = BoxMesh.new()
+			mesh.scale = Vector3(0.5, 0.5, 0.5)
+			pawn.add_child(mesh)
+
+			container.add_child(pawn)
+			pawns.append(pawn)
+
+			# Positionne le pion sur la tuile
+			pawn.position = tile.position + Vector3(0, 0.5, 0)
+			pawn.set_player_id(player_id)
+
+	print("[Camp] Généré ", pawns.size(), " pions pour le joueur ", player_id)

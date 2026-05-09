@@ -40,3 +40,6 @@ func spawn_camps():
 		# 👉 position autour du centre
 		var distance = 10
 		camp.position = Vector3(0, 0, -distance).rotated(Vector3.UP, deg_to_rad(angle))
+
+		# 👉 assigne l'ID du joueur
+		camp.player_id = i
