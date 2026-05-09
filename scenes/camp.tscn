@@ -2,9 +2,13 @@
 
 [ext_resource type="Script" uid="uid://ddp5wdubs8e6" path="res://scripts/camp.gd" id="1_nfbfs"]
 [ext_resource type="PackedScene" uid="uid://ccbwa0ec375r4" path="res://scenes/tiles.tscn" id="1_wk8fr"]
+[ext_resource type="Script" uid="uid://fxh8edciodma" path="res://scripts/path.gd" id="3_c5nam"]
 
 [node name="Camp" type="Node3D" unique_id=306068408]
 script = ExtResource("1_nfbfs")
 tile_scene = ExtResource("1_wk8fr")
 
 [node name="Tiles" type="Node3D" parent="." unique_id=356959338]
+
+[node name="Path" type="Node" parent="." unique_id=1493824509]
+script = ExtResource("3_c5nam")
